@@ -1,5 +1,7 @@
 from random import randint
 
+#basic LIFO stack
+#https://en.wikipedia.org/wiki/Stack_(abstract_data_type)
 class LIFO:
     list = []
     def push(self, item):
@@ -23,13 +25,11 @@ class Interpreter:
 
     def __init__(self, text, x=0, y=0):
         self.source = None
-        self.original = None
         self.inittext(text)
         self.stringmode = False
         self.char = None
         self.x, self.y = x, y
         self.dx, self.dy = 1, 0
-        self.dir = 0
         self.stack = LIFO()
         self.debugging = []
 
@@ -40,9 +40,9 @@ class Interpreter:
         maxlen = len(max(self.source, key=len))
         for l in self.source:
             l.extend([' ' for h in range(maxlen-len(l))])
-        self.original = self.source
+        
         self.source = self.source[:-1]
-        #optional line to remove pycharm's extra line insertion
+        # ^optional line to remove pycharm's extra line insertion
 
         # for l in self.source: print(l)
 
@@ -143,9 +143,10 @@ class Interpreter:
                     # self.debug()
                     if val == '': self.stack.push(-1)
                     else: self.stack.push(ord(val))
+                
                 elif self.char == '@': break
-                elif self.char == ' ': pass
-                else: print(self.char)
+#                 elif self.char == ' ': pass
+#                 else: print(self.char)
             self.update()
             self.confine()
 
@@ -156,3 +157,4 @@ file = open("program.txt", 'r')
 text = file.read()
 interpreter = Interpreter(text)
 interpreter.interpret()
+#interpreter.debug()
